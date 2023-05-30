@@ -1,0 +1,22 @@
+.section__title{
+  width: 100%;
+  margin: 0 0 23px 0;
+  text-align: left;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+}
+
+.section__line{
+  height: 1px;
+  width: 100%;
+  background: var(--black-background);
+}
+
+.section__line_about-margin{
+  margin: 0 0 70px 0;
+}
+
+.section__line_techs-margin{
+  margin: 0 0 93px 0;
+}
