@@ -22,7 +22,7 @@ function Techs() {
   ];
 
   return (
-    <section className="techs">
+    <section className="techs" id="techs">
       <div className="techs__container">
           <SectionTitle
             title='Технологии'

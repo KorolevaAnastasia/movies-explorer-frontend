@@ -1,0 +1,32 @@
+.movies{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 364px);
+  row-gap: 30px;
+  column-gap: 24px;
+  margin: 70px 0;
+  justify-content: center;
+}
+
+@media screen and (max-width: 920px){
+  .movies{
+    grid-template-columns: repeat(auto-fit, 339px);
+    row-gap: 36px;
+    column-gap: 30px;
+  }
+}
+
+
+@media screen and (max-width: 580px){
+  .movies{
+    grid-template-columns: repeat(auto-fit, 300px);
+    row-gap: 16px;
+  }
+}
+
+.movies__button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 80px;
+}

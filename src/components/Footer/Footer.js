@@ -22,7 +22,7 @@ function Footer() {
           <p className="footer__copyright">&copy; {new Date().getFullYear()}</p>
           <nav className="footer__links">
             {links.map((link, index) => (
-              <a key={index} className="footer__link" target="_blank" href={link.url} rel="noreferrer">
+              <a key={index} className="footer__link" target="_blank" rel="noreferrer" href={link.url}>
                 {link.title}
               </a>
             ))}

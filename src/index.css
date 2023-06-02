@@ -13,13 +13,22 @@ code {
 }
 
 :root{
-  --main-background: #FFF;
-  --alt--background: #FAFAFA;
-  --grey-background: #E8E8E8;
-  --grey-timeline-background: #F2F2F2;
-  --black-background: #000;
-  --text-color: #000;
-  --alt-text-color: #A0A0A0;
-  --error-color: #FF0000;
+  --main-white-color: #FFF;
+  --main-black-color: #000;
   --main-primary-color: #2BE080;
+
+  --alt--background: #FAFAFA;
+  --card-background: #FDFDFD;
+  --grey-profile-background: #F9F9F9;
+  --grey-timeline-background: #F2F2F2;
+  --grey-promo-background: #F5F5F5;
+  --grey-background: #E8E8E8;
+  --alt-text-color: #A0A0A0;
+
+  --error-color: #EE3465;
+  --button-color: #FF6838;
+
+  --disabled-background: #F8F8F8;
+  --disabled-text: #C2C2C2;
+
 }

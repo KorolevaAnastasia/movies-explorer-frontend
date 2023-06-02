@@ -1,0 +1,160 @@
+.about-me{
+  width: 100%;
+  background-color: var(--main-white-color);
+}
+
+.about-me__container{
+  margin: 0 auto;
+  padding-top: 110px;
+  width: calc(100% - 2 * 70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (max-width: 780px){
+  .about-me__container{
+    padding-top: 90px;
+    width: calc(100% - 2 * 50px);
+  }
+}
+
+@media screen and (max-width: 480px){
+  .about-me__container{
+    padding-top: 70px;
+    width: calc(100% - 2 * 18px);
+  }
+}
+
+
+.about-me__content{
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 105px;
+  gap: 50px;
+  flex-direction: row-reverse;
+}
+
+@media screen and (max-width: 780px){
+  .about-me__content{
+    margin-bottom: 93px;
+  }
+}
+
+@media screen and (max-width: 580px){
+  .about-me__content{
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 580px){
+  .about-me__content{
+    margin-bottom: 70px;
+  }
+}
+
+.about-me__block{
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.student__title{
+  margin: 0 0 20px 0;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  color: var(--main-black-color);
+}
+
+@media screen and (max-width: 780px){
+  .student__title{
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+
+.student__subtitle{
+  margin: 0 0 30px 0;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: var(--main-black-color);
+}
+
+@media screen and (max-width: 780px){
+  .student__subtitle{
+    margin: 0 0 20px 0;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 580px){
+  .student__subtitle{
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+.student__description{
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--main-black-color);
+}
+
+@media screen and (max-width: 780px){
+  .student__description{
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 580px){
+  .student__description{
+    margin-bottom: 40px;
+  }
+}
+
+
+.student__links{
+  display: inline-flex;
+  gap: 16px;
+}
+
+.student__link{
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--main-black-color);
+}
+
+.student__link:hover{
+  opacity: 0.7;
+}
+
+.about-me__photo{
+  border-radius: 10px;
+  max-width: 270px;
+  max-height: 327px;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 780px){
+  .about-me__photo{
+    max-width: 225px;
+    max-height: 307px;
+  }
+}
+
+
+
+

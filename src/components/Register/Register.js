@@ -1,9 +1,17 @@
 import React from 'react';
-import AuthForm from "../AuthForm";
+import AuthForm from "../AuthForm/AuthForm";
 
-function Register(){
+function Register(props){
   return (
-    <AuthForm/>
+    <AuthForm
+      name="signup"
+      title="Добро пожаловать!"
+      buttonText="Зарегистрироваться"
+      isRegister={true}
+      isLogin={false}
+      onRegister={props.onRegister}
+      isTooltip={props.isTooltip}
+    />
   );
 
 }

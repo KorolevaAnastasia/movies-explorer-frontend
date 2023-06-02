@@ -1,0 +1,22 @@
+.movies__content{
+  width: calc(100% - 2 * 70px);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 10px;
+  flex: auto;
+}
+
+@media screen and (max-width: 920px){
+  .movies__content{
+    width: calc(100% - 2 * 30px);
+  }
+}
+
+@media screen and (max-width: 580px){
+  .movies__content{
+    width: calc(100% - 2 * 10px);
+  }
+}
+
+

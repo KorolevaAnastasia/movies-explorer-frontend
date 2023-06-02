@@ -1,34 +1,16 @@
-import React, {useState} from 'react';
-import AuthForm from "../AuthForm";
+import React from 'react';
+import AuthForm from "../AuthForm/AuthForm";
 
 function Login(props){
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
-  }
-
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
-  }
-
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    props.onLogin(email, password);
-  }
-
   return (
     <AuthForm
       name="signin"
-      onSubmit={handleSubmit}
-      title="Вход"
-      email={email}
-      onEmailChange={handleChangeEmail}
-      password={password}
-      onPasswordChange={handleChangePassword}
+      title="Рады видеть!"
       buttonText="Войти"
       isRegister={false}
+      isLogin={true}
+      onLogin={props.onLogin}
+      isTooltip={props.isTooltip}
     />
   )
 
