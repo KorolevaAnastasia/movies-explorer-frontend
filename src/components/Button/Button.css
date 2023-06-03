@@ -1,0 +1,105 @@
+.button{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--main-black-color);
+}
+
+.button_logout{
+  font-weight: 500;
+  color: var(--error-color);
+}
+
+.button_redirect{
+  margin-top: 185px;
+  font-weight: 500;
+  color: var(--error-color);
+}
+
+.button_submit{
+  width: 396px;
+  height: 45px;
+  background-color: var(--button-color);
+  border-radius: 3px;
+  color: var(--main-white-color);
+}
+
+@media screen and (max-width: 580px){
+  .button_submit{
+    width: 260px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+.button_disabled{
+  background-color: var(--disabled-background);
+  color: var(--disabled-text);
+}
+
+.button_find{
+  background: url("../../images/find.svg") no-repeat 50% 50%;
+  height: 34px;
+  width: 34px;
+}
+
+.button:hover{
+  opacity: 0.8;
+}
+
+.button_like{
+  grid-row: 1 / 3;
+  grid-column: 2;
+  background: url("../../images/save.svg") no-repeat 50% 50%;
+  height: 30px;
+  width: 30px;
+  margin: auto;
+}
+
+.button_like_active{
+  grid-row: 1 / 3;
+  grid-column: 2;
+  background: url("../../images/saved.svg") no-repeat 50% 50%;
+  height: 30px;
+  width: 30px;
+  margin: auto;
+}
+
+.button_remove{
+  grid-row: 1 / 3;
+  grid-column: 2;
+  background: url("../../images/remove.svg") no-repeat 50% 50%;
+  height: 30px;
+  width: 30px;
+  margin: auto;
+}
+
+.button_more{
+  max-width: 320px;
+  width: 100%;
+  height: 36px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  border: 1px solid var(--grey-background);
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 580px){
+  .button_more{
+    max-width: 200px;
+  }
+}
+
+.button_nav-close{
+  background: url("../../images/close.svg") no-repeat 50% 50%;
+  height: 22px;
+  width: 22px;
+}
+
+

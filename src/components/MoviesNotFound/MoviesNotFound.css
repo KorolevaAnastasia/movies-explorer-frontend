@@ -1,0 +1,12 @@
+.movies__not-found{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  flex: auto;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--main-black-color);
+}

@@ -1,0 +1,20 @@
+.tooltip{
+  display: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: -30px;
+}
+
+.tooltip__error_active{
+  display: block;
+  color: var(--error-color);
+}
+
+.tooltip__message_active{
+  display: block;
+  color: var(--main-primary-color);
+}
