@@ -12,7 +12,7 @@ function Burger({onClick, isBurgerActive}) {
           <Button
             type='button'
             event={onClick}
-            className='button__nav-close'
+            className='button_nav-close'
           />
         </div>
         <div className='burger__menu'>

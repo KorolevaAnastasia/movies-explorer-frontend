@@ -21,7 +21,7 @@ function SearchForm() {
 
   return (
     <section className="search">
-      <div className="search-form__container">
+      <div className="search-form">
         <form className="search-form__content" name='search' onSubmit={handleSubmit(onSubmit)}>
           <img src={searchIcon} className="search-form__icon" alt="search"/>
           <input className="search-form__input" type="text" placeholder="Фильм"
@@ -29,7 +29,7 @@ function SearchForm() {
           <Button
             name=''
             type='submit'
-            className='button__find'
+            className='button_find'
           />
         </form>
         <div className="search-form__addition">

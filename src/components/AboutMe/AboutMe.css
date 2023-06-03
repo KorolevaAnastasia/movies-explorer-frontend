@@ -124,12 +124,12 @@
 }
 
 
-.student__links{
+.student-links{
   display: inline-flex;
   gap: 16px;
 }
 
-.student__link{
+.student-link{
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
@@ -137,7 +137,7 @@
   color: var(--main-black-color);
 }
 
-.student__link:hover{
+.student-link:hover{
   opacity: 0.7;
 }
 

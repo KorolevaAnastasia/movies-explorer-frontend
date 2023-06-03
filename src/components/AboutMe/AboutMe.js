@@ -28,9 +28,9 @@ function AboutMe() {
               <p className="student__subtitle">Вэб-разработчик, 29 лет</p>
               <p className="student__description">Живу в Люберцах. Более 5 лет работаю Backend-программистом. Пришла на курс, чтобы расширить свои знания и возможности.</p>
             </div>
-            <div className="student__links">
+            <div className="student-links">
               {links.map((link, index) => (
-                <a key={index} className="student__link" target="_blank" rel="noreferrer" href={link.url}>
+                <a key={index} className="student-link" target="_blank" rel="noreferrer" href={link.url}>
                   {link.title}
                 </a>
               ))}

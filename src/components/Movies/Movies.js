@@ -35,11 +35,11 @@ function Movies({isLoggedIn, isLoading, movies, isBurger, onBurger, isBurgerActi
         onBurger={onBurger}
         isBurgerActive={isBurgerActive}
       />
-      <main className="movies__content">
+      <main className="movies">
         <SearchForm/>
         {isLoading ?
           <Preloader /> :
-          <section className="movies">
+          <section className="movies__block">
             <MoviesCardList
               movies={movies.slice(0, paginate)}
             />
@@ -51,7 +51,7 @@ function Movies({isLoggedIn, isLoading, movies, isBurger, onBurger, isBurgerActi
             <Button
               name='Ещё'
               type='button'
-              className='button__more'
+              className='button_more'
               event={changePaginate}
             />
           </div>

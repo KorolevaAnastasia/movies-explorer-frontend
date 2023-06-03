@@ -50,7 +50,7 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
           <form name='profile' onSubmit={handleSubmit(onSubmit)} className='profile__fields'>
             <div className='profile__field'>
               <label className='profile__label'>Имя</label>
-              <input className="profile__input" type="text"
+              <input className="profile__input" type="text" required={true}
                      {...register('name', name(!isEdit))}/>
               {errors?.name && (
                 <span className="name-input-error profile-field__error">
@@ -60,7 +60,7 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
             </div>
             <div className='profile__field'>
               <label className='profile__label'>Email</label>
-              <input className="profile__input" type="text"
+              <input className="profile__input" type="text" required={true}
                      {...register('email', email(!isEdit))}/>
                 {errors?.email && (
                 <span className="email-input-error profile-field__error">
@@ -80,7 +80,7 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
                     <Button
                       event={onLogout}
                       name='Выйти из аккаунта'
-                      className='button__logout'
+                      className='button_logout'
                       type='button'
                     />
                   </>
@@ -91,7 +91,7 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
                       disabled={!isValid}
                       name='Сохранить'
                       type='submit'
-                      className={`button__submit ${!isValid || isError ? 'button__disabled' : ''}`}
+                      className={`button_submit ${!isValid || isError ? 'button_disabled' : ''}`}
                     />
                   </>
                 )}

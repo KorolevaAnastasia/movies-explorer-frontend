@@ -1,4 +1,4 @@
-.portfolio__container{
+.portfolio{
   margin: 0 auto 100px auto;
   width: calc(100% - 2 * 70px);
   display: flex;
@@ -6,14 +6,14 @@
 }
 
 @media screen and (max-width: 780px){
-  .portfolio__container{
+  .portfolio{
     margin: 0 auto 70px auto;
     width: calc(100% - 2 * 50px);
   }
 }
 
 @media screen and (max-width: 480px){
-  .portfolio__container{
+  .portfolio{
     width: calc(100% - 2 * 18px);
   }
 }

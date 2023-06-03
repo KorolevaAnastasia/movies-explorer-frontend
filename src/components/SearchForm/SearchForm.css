@@ -2,7 +2,7 @@
   border-bottom: 1px solid var(--grey-background);
 }
 
-.search-form__container{
+.search-form{
   margin: 70px 0;
   background: var(--grey-profile-background);
   border-radius: 9px;
@@ -13,14 +13,14 @@
 }
 
 @media screen and (max-width: 920px){
-  .search-form__container{
+  .search-form{
     margin: 80px 0 110px 0;
     grid-template-columns: 1fr 207px;
   }
 }
 
 @media screen and (max-width: 580px){
-  .search-form__container{
+  .search-form{
     grid-template-columns: 1fr;
     margin: 80px auto 45px auto;
     height: initial;

@@ -12,9 +12,9 @@ function MoviesCard(props) {
         <h2 className="movies__title">{props.title}</h2>
         <p className="movies__time">{props.time}</p>
         {location.pathname === "/movies" ?
-          <Button className={`button__like ${props.like ? 'button__like_active' : ''}`} type='button'
+          <Button className={`button_like ${props.like ? 'button_like_active' : ''}`} type='button'
           /> :
-          <Button className='button__remove' type='button'
+          <Button className='button_remove' type='button'
           />
         }
       </div>

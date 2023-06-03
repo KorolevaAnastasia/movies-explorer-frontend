@@ -36,7 +36,7 @@ function AuthForm(props){
         {props.isRegister ? (
           <div className='auth__field'>
             <label className='auth__label'>Имя</label>
-            <input className={`auth__input ${errors?.name ? 'auth__input_error' : ''}`} type="text"
+            <input className={`auth__input ${errors?.name ? 'auth__input_error' : ''}`} type="text" required={true}
             {...register('name', name(false))}/>
             {errors?.name && (
               <span className="name-input-error auth-field__error">
@@ -47,7 +47,7 @@ function AuthForm(props){
         ) : ''}
         <div className='auth__field'>
           <label className='auth__label'>Email</label>
-          <input className={`auth__input ${errors?.email ? 'auth__input_error' : ''}`} type="text"
+          <input className={`auth__input ${errors?.email ? 'auth__input_error' : ''}`} type="text" required={true}
             {...register('email', email(false))}/>
             {errors?.email && (
               <span className="email-input-error auth-field__error">
@@ -57,7 +57,7 @@ function AuthForm(props){
         </div>
         <div className='auth__field'>
           <label className='auth__label'>Пароль</label>
-          <input className={`auth__input ${errors?.password ? 'auth__input_error' : ''}`} type="password"
+          <input className={`auth__input ${errors?.password ? 'auth__input_error' : ''}`} type="password" required={true}
           {...register('password', password())}/>
           {errors?.password && (
             <span className="password-input-error auth-field__error">
@@ -71,7 +71,7 @@ function AuthForm(props){
         {props.isTooltip && <Tooltip type='message' message={'Регистрация успешно пройдена!'}/>}
         <Button
           name={props.buttonText}
-          className={`button__submit ${!isValid || isError ? 'button__disabled' : ''}`}
+          className={`button_submit ${!isValid || isError ? 'button_disabled' : ''}`}
           disabled={!isValid}
           type='submit'
         />

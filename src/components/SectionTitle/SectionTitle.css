@@ -1,4 +1,4 @@
-.section__title{
+.section-title{
   width: 100%;
   margin: 0 0 23px 0;
   text-align: left;
@@ -8,45 +8,45 @@
 }
 
 @media screen and (max-width: 480px){
-  .section__title{
+  .section-title{
     font-size: 18px;
     line-height: 22px;
   }
 }
 
 
-.section__line{
+.section-line{
   height: 1px;
   width: 100%;
   background: var(--main-black-color);
 }
 
-.section__line_about-margin{
+.section-line_about-margin{
   margin: 0 0 70px 0;
 }
 
 @media screen and (max-width: 480px){
-  .section__line_about-margin{
+  .section-line_about-margin{
     margin: 0 0 60px 0;
   }
 }
 
-.section__line_techs-margin{
+.section-line_techs-margin{
   margin: 0 0 93px 0;
 }
 
 @media screen and (max-width: 780px){
-  .section__line_techs-margin{
+  .section-line_techs-margin{
     margin: 0 0 80px 0;
   }
 }
 
-.section__line_student-margin{
+.section-line_student-margin{
   margin: 0 0 60px 0;
 }
 
 @media screen and (max-width: 780px){
-  .section__line_student-margin{
+  .section-line_student-margin{
     margin: 0 0 65px 0;
   }
 }

@@ -20,7 +20,7 @@ function Portfolio() {
 
   return (
     <>
-      <div className="portfolio__container">
+      <div className="portfolio">
         <h3 className="portfolio__title">Портфолио</h3>
         <ul className="portfolio__links">
           {links.map((link, index) => (

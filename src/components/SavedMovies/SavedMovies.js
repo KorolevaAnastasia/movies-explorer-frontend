@@ -58,7 +58,7 @@ function SavedMovies({isLoggedIn, isBurger, onBurger, isBurgerActive}) {
       />
       <main className="saved-movies__content">
         <SearchForm/>
-        <section className="movies">
+        <section className="movies__block">
           <MoviesCardList
             movies={tempMoviesCards}
           />
