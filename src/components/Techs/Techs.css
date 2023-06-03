@@ -83,6 +83,13 @@
   justify-content: center;
 }
 
+@media screen and (max-width: 480px){
+  .techs__stacks{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .techs__stack{
   width: 90px;
   height: 60px;

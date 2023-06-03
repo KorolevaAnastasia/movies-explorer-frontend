@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Portfolio.css";
-import linkImg from '../../images/link.png';
+import linkImg from '../../images/link.svg';
 
 function Portfolio() {
 

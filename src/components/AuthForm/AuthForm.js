@@ -29,7 +29,7 @@ function AuthForm(props){
   return(
     <main className="auth">
       <div className='auth__header-block'>
-        <div className="auth__header-logo"/>
+        <Link to='/' className="auth__header-logo"/>
         <h1 className="auth__title">{props.title}</h1>
       </div>
       <form name={props.name} className="auth__form" onSubmit={handleSubmit(onSubmit)}>

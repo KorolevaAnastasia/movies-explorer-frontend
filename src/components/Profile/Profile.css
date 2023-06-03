@@ -14,8 +14,9 @@
 
 @media screen and (max-width: 480px){
   .profile__container{
-    height: calc(100vh - 225px);
+    height: calc(100vh - 190px);
     width: calc(100% - 30px * 2);
+    margin-bottom: 40px;
   }
 }
 
@@ -29,7 +30,7 @@
 
 @media screen and (max-width: 480px){
   .profile__title{
-    margin-bottom: 80px;
+    margin-bottom: 57px;
   }
 }
 

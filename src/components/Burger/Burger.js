@@ -18,12 +18,12 @@ function Burger({onClick, isBurgerActive}) {
         <div className='burger__menu'>
           <nav className="burger__navigation">
             <div className='burger__navigation-movies'>
-              <NavLink to="/" className={({isActive}) => `burger__link ${isActive ? "burger__link_active" : ''}`}>Главная</NavLink>
-              <NavLink to="/movies" className={({isActive}) => `burger__link ${isActive ? "burger__link_active" : ''}`}>Фильмы</NavLink>
-              <NavLink to="/saved-movies" className={({isActive}) => `burger__link ${isActive ? "burger__link_active" : ''}`}>Сохранённые фильмы</NavLink>
+              <NavLink to="/" onClick={onClick} className={({isActive}) => `burger__link ${isActive ? "burger__link_active" : ''}`}>Главная</NavLink>
+              <NavLink to="/movies" onClick={onClick} className={({isActive}) => `burger__link ${isActive ? "burger__link_active" : ''}`}>Фильмы</NavLink>
+              <NavLink to="/saved-movies" onClick={onClick} className={({isActive}) => `burger__link ${isActive ? "burger__link_active" : ''}`}>Сохранённые фильмы</NavLink>
             </div>
             <div className='burger__navigation-profile'>
-              <NavLink to="/profile" className="navigation__link navigation__link_profile">Аккаунт</NavLink>
+              <NavLink to="/profile" onClick={onClick} className="navigation__link navigation__link_profile">Аккаунт</NavLink>
             </div>
           </nav>
         </div>

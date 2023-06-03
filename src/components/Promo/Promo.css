@@ -50,6 +50,7 @@
 
 @media screen and (max-width: 480px){
   .promo__title{
+    margin: auto;
     font-size: 29px;
     line-height: 37px;
   }
