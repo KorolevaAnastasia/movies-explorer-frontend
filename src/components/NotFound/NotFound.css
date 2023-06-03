@@ -25,6 +25,14 @@
   color: var(--main-black-color);
 }
 
+
+@media screen and (max-width: 480px){
+  .not-found__title{
+    font-size: 80px;
+    line-height: 97px;
+  }
+}
+
 .not-found__description{
   margin: 0 auto;
   font-weight: 400;
@@ -32,3 +40,11 @@
   line-height: 19px;
   color: var(--main-black-color);
 }
+
+@media screen and (max-width: 480px){
+  .not-found__description{
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
