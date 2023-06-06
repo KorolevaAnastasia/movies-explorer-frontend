@@ -1,5 +1,5 @@
 export const regExpEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-export const regExpName = /^[a-яё]+|[a-z]+(?:[ -][a-яё]+|[a-z]+)*$/
+export const regExpName = /^[a-zA-Zа-яА-ЯёЁ -]{2,30}$/
 export const serverUrl = 'https://api.nomoreparties.co';
 
 export const errorMessages = {
