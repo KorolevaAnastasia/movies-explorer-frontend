@@ -35,12 +35,16 @@ function App() {
   const [isInfoTooltip, setIsInfoTooltip] = React.useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [movies, setMovies] = useState([]); //все
-  const [savedMovies, setSavedMovies] = useState([]); //сохраненные
-  const [searchResults, setSearchResults] = React.useState([]); //результаты поиска по всем
-  const [searchSavedMoviesResults, setSearchSavedMoviesResults] = React.useState([]); //результаты поиска по cj[hfytyysv
+  const [movies, setMovies] = useState([]); //все фильмы
+  const [savedMovies, setSavedMovies] = useState([]); //сохраненные фильмы
+  const [searchResults, setSearchResults] = React.useState([]); //результаты поиска по всем фильмам
+  const [searchSavedMoviesResults, setSearchSavedMoviesResults] = React.useState([]); //результаты поиска по сохраненным
+
   const [searchKeyword, setSearchKeyword] = useState(''); //ключевое слово
+  const [searchSavedKeyword, setSearchSavedKeyword] = useState(''); //ключевое слово сохраненных
+
   const [isShortMovie, setIsShortMovie] = useState(false); //чекбокс короткометражки
+  const [isShortSavedMovie, setIsShortSavedMovie] = useState(false); //чекбокс сохраненных короткометражек
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -130,11 +134,23 @@ function App() {
       localStorage.setItem('searchKeyword', searchKeyword);
   }, [searchKeyword, isLoggedIn]);
 
+  //ключевое слово
+  useEffect(() => {
+    if(isLoggedIn)
+      localStorage.setItem('searchSavedKeyword', searchSavedKeyword);
+  }, [searchSavedKeyword, isLoggedIn]);
+
   //фильтр
   useEffect(() => {
     if(isLoggedIn)
       localStorage.setItem('isShortMovie', JSON.stringify(isShortMovie));
   }, [isShortMovie, isLoggedIn]);
+
+  //фильтр
+  useEffect(() => {
+    if(isLoggedIn)
+      localStorage.setItem('isShortSavedMovie', JSON.stringify(isShortSavedMovie));
+  }, [isShortSavedMovie, isLoggedIn]);
 
   function handleBurger() {
     setIsBurgerActive(!isBurgerActive);
@@ -144,9 +160,9 @@ function App() {
     return window.innerWidth;
   }
 
-  function handeEditProfile(evt) {
-    evt.preventDefault();
+  function handeEditProfile() {
     setIsProfileEdit(true);
+    setIsInfoTooltip(false);
     setErrorText('');
   }
 
@@ -154,13 +170,16 @@ function App() {
     const {name, email} = data;
     updateProfile(name, email).then(user => {
       setUser(user);
-      setIsProfileEdit(false);
+      setIsInfoTooltip(true);
     }).catch(error => {
       if(error === 409)
         setErrorText(errorMessages.emailError);
       else
         setErrorText(errorMessages.error);
+    }).finally(() => {
+      setIsProfileEdit(false);
     });
+    setUser(currentUser);
   }
 
   function handleLogout(){
@@ -170,14 +189,18 @@ function App() {
     localStorage.removeItem('searchResults');
     localStorage.removeItem('searchSavedMoviesResults');
     localStorage.removeItem('searchKeyword');
+    localStorage.removeItem('searchSavedKeyword');
     localStorage.removeItem('isShortMovie');
+    localStorage.removeItem('isShortSavedMovie');
 
     setMovies([]);
     setSavedMovies([]);
     setSearchResults([]);
     setSearchSavedMoviesResults([]);
     setSearchKeyword('');
+    setSearchSavedKeyword('');
     setIsShortMovie(false);
+    setIsShortSavedMovie(false);
 
     setIsInfoTooltip(false);
     setErrorText('');
@@ -264,26 +287,27 @@ function App() {
   }, [movies, searchKeyword]);
 
   useEffect(() => {
-    if(location.pathname === "/saved-movies" && searchKeyword && savedMovies.length > 0) {
+    if(location.pathname === "/saved-movies" && searchSavedKeyword && savedMovies.length > 0) {
       const searchedResults = savedMovies.filter((movie) => {
-        return movie.nameRU.toLowerCase().includes(searchKeyword.toLowerCase());
+        return movie.nameRU.toLowerCase().includes(searchSavedKeyword.toLowerCase());
       });
       setSearchSavedMoviesResults(searchedResults);
     } else {
       setSearchSavedMoviesResults(savedMovies);
     }
-  }, [savedMovies, searchKeyword]);
+  }, [savedMovies, searchSavedKeyword]);
 
   function handleSearchSubmit(keyword) {
-    setSearchKeyword(keyword);
     setIsLoading(true);
     if(location.pathname === "/movies" && movies.length > 0) {
+      setSearchKeyword(keyword);
       const searchedResults = movies.filter((movie) => {
         return movie.nameRU.toLowerCase().includes(keyword.toLowerCase());
       });
       setSearchResults(searchedResults);
     }
     if(location.pathname === "/saved-movies" && savedMovies.length > 0) {
+      setSearchSavedKeyword(keyword);
       const searchedResults = savedMovies.filter((movie) => {
         return movie.nameRU.toLowerCase().includes(keyword.toLowerCase());
       });
@@ -349,9 +373,9 @@ function App() {
                 onSave={handleSaveMovieClick}
                 onRemove={handleRemoveMovieClick}
                 onSearchClick={handleSearchSubmit}
-                searchKeyword={searchKeyword}
-                checkbox={isShortMovie}
-                setCheckbox={setIsShortMovie}
+                searchKeyword={searchSavedKeyword}
+                checkbox={isShortSavedMovie}
+                setCheckbox={setIsShortSavedMovie}
               />
             }/>
           </Route>

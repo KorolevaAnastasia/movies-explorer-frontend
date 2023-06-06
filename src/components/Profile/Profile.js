@@ -7,7 +7,7 @@ import Button from "../Button/Button";
 import Header from "../Header/Header";
 import Tooltip from "../Tooltip/Tooltip";
 
-function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive, errorText, isEdit, onEdit}) {
+function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive, errorText, isEdit, onEdit, isTooltip}) {
   const currentUser = useContext(CurrentUserContext);
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     defaultValues: {
@@ -57,6 +57,8 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
               )}
             </div>
             <div className='profile__buttons'>
+              {isTooltip && <Tooltip type='message' message={'Данные профиля успешно обновлены!'}/>}
+              {errorText && <Tooltip type='error' message={errorText}/>}
               {!isEdit ?
                 (
                   <>
@@ -72,17 +74,14 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
                       type='button'
                     />
                   </>
-                ) : (
-                  <>
-                    {errorText && <Tooltip type='error' message={errorText}/>}
-                    <Button
-                      disabled={!isValid}
-                      name='Сохранить'
-                      type='submit'
-                      className={`button_submit ${!isValid ? 'button_disabled' : ''}`}
-                    />
-                  </>
-                )}
+                ) :
+                  <Button
+                    disabled={!isValid}
+                    name='Сохранить'
+                    type='submit'
+                    className={`button_submit ${!isValid ? 'button_disabled' : ''}`}
+                  />
+                }
             </div>
           </form>
         </section>

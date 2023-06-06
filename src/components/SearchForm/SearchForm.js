@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./SearchForm.css";
 import {useForm} from "react-hook-form";
 import searchIcon from '../../images/search.svg';
@@ -22,6 +22,18 @@ function SearchForm({onSearchClick, searchKeyword, checkbox, setCheckbox}) {
       onSearchClick(data.search);
     }
   };
+
+  useEffect(() => {
+    function searchByEnter(evt) {
+      if (evt.code === 'Enter')
+        handleSubmit(onSubmit);
+    }
+
+    document.addEventListener('keydown', searchByEnter);
+    return(() => {
+      window.removeEventListener('keydown', searchByEnter);
+    })
+  }, []);
 
   return (
     <section className="search">
