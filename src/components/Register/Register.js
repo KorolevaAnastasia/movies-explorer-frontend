@@ -11,6 +11,7 @@ function Register(props){
       isLogin={false}
       onRegister={props.onRegister}
       isTooltip={props.isTooltip}
+      isAuthError={props.isAuthError}
     />
   );
 

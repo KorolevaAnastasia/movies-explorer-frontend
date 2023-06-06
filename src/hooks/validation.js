@@ -1,4 +1,4 @@
-import {regExpEmail} from "../utils/constants";
+import {regExpEmail, regExpName} from "../utils/constants";
 
 export const name = (disabled) => (
   {
@@ -11,6 +11,10 @@ export const name = (disabled) => (
     minLength: {
       value: 2,
       message: 'Минимум 2 символа.'
+    },
+    pattern: {
+      value: regExpName,
+      message: 'Имя может содержать только кириллические, латинские буквы и дефисы.'
     }
   }
 );
@@ -39,4 +43,5 @@ export const password = () => (
     }
   }
 );
+
 

@@ -5,19 +5,23 @@ import searchIcon from '../../images/search.svg';
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Button from "../Button/Button";
 
-function SearchForm() {
-  const [isChecked, setIsChecked] = useState(false);
-  const { register, handleSubmit } = useForm({
-    mode: "onChange"
+function SearchForm({onSearchClick, searchKeyword, checkbox, setCheckbox}) {
+  const [isError, setIsError] = useState(false);
+  const { register, handleSubmit, getValues } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      'search': searchKeyword.length ? searchKeyword : ''
+    }
   });
 
   const onSubmit = data => {
-    //console.log(data);
+    if(getValues().search.length === 0){
+      setIsError(true);
+    } else {
+      setIsError(false);
+      onSearchClick(data.search);
+    }
   };
-
-  function handleChangeCheckbox() {
-    setIsChecked(!isChecked);
-  }
 
   return (
     <section className="search">
@@ -32,11 +36,12 @@ function SearchForm() {
             className='button_find'
           />
         </form>
+        <span className='search-form__input-error'>{isError && 'Нужно ввести ключевое слово.'}</span>
         <div className="search-form__addition">
           <FilterCheckbox
             id="short-films"
-            checked={isChecked}
-            onChange={handleChangeCheckbox}
+            checkbox={checkbox}
+            setCheckbox={setCheckbox}
             label='Короткометражки'
           />
         </div>

@@ -11,6 +11,7 @@ function Login(props){
       isLogin={true}
       onLogin={props.onLogin}
       isTooltip={props.isTooltip}
+      isAuthError={props.isAuthError}
     />
   )
 

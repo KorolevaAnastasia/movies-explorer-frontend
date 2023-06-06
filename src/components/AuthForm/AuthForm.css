@@ -146,7 +146,7 @@
 
 @media screen and (max-width: 580px){
   .auth__buttons{
-    margin: auto;
+    margin-top: auto;
   }
 }
 

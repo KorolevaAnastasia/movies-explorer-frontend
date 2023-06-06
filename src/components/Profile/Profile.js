@@ -7,34 +7,22 @@ import Button from "../Button/Button";
 import Header from "../Header/Header";
 import Tooltip from "../Tooltip/Tooltip";
 
-function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive}) {
+function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive, errorText, isEdit, onEdit}) {
   const currentUser = useContext(CurrentUserContext);
-  const [isEdit, setIsEdit] = React.useState(false); //состояния для проверки
-  const [isError, setIsError] = React.useState(false); //состояния для проверки
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
-    /*defaultValues: {
+    defaultValues: {
       email: currentUser.email,
       name: currentUser.name,
-    },*/
-    defaultValues: {
-      email: 'a.koroleva@lofice.com',
-      name: 'Anastasia',
     },
     mode: "onChange"
   });
 
   const onSubmit = data => {
-    setIsEdit(false);
     onProfileUpdate({
       name: data.name,
       email: data.email,
     });
   };
-
-  function handeEditProfile(evt) {
-    evt.preventDefault();
-    setIsEdit(true);
-  }
 
   return (
     <>
@@ -75,7 +63,7 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
                     <Button
                       name='Редактировать'
                       type='button'
-                      event={handeEditProfile}
+                      event={onEdit}
                     />
                     <Button
                       event={onLogout}
@@ -86,12 +74,12 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
                   </>
                 ) : (
                   <>
-                    {isError && <Tooltip type='error' message={'Произошла какая-то ошибка...'}/>}
+                    {errorText && <Tooltip type='error' message={errorText}/>}
                     <Button
                       disabled={!isValid}
                       name='Сохранить'
                       type='submit'
-                      className={`button_submit ${!isValid || isError ? 'button_disabled' : ''}`}
+                      className={`button_submit ${!isValid ? 'button_disabled' : ''}`}
                     />
                   </>
                 )}

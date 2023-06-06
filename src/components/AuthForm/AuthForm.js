@@ -7,8 +7,6 @@ import Button from "../Button/Button";
 import Tooltip from "../Tooltip/Tooltip";
 
 function AuthForm(props){
-  const [isError, setIsError] = React.useState(false);
-
   const { register, handleSubmit, formState: { errors , isValid } } = useForm({
     mode: "onChange"
   });
@@ -16,13 +14,14 @@ function AuthForm(props){
   const onSubmit = data => {
     if(props.isLogin)
       props.onLogin({
-        name: data.name,
         email: data.email,
+        password: data.password
       });
     if(props.isRegister)
       props.onRegister({
         name: data.name,
         email: data.email,
+        password: data.password
       });
   };
 
@@ -65,17 +64,17 @@ function AuthForm(props){
             </span>
           )}
         </div>
+        <div className='auth__buttons'>
+          {props.isAuthError && <Tooltip type='error' message={props.isAuthError}/>}
+          {props.isTooltip && <Tooltip type='message' message={'Регистрация успешно пройдена!'}/>}
+          <Button
+            name={props.buttonText}
+            className={`button_submit ${!isValid ? 'button_disabled' : ''}`}
+            disabled={!isValid}
+            type='submit'
+          />
+        </div>
       </form>
-      <div className='auth__buttons'>
-        {isError && <Tooltip type='error' message={'Произошла какая-то ошибка...'}/>}
-        {props.isTooltip && <Tooltip type='message' message={'Регистрация успешно пройдена!'}/>}
-        <Button
-          name={props.buttonText}
-          className={`button_submit ${!isValid || isError ? 'button_disabled' : ''}`}
-          disabled={!isValid}
-          type='submit'
-        />
-      </div>
       {props.isLogin && <Link className="auth__link" to="/signup">Ещё не зарегистрированы? {<span className="auth__link auth__link_accent">Регистрация</span>}</Link>}
       {props.isRegister && <Link className="auth__link" to="/signin">Уже зарегистрированы? {<span className="auth__link auth__link_accent">Войти</span>}</Link>}
     </main>
