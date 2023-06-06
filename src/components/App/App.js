@@ -51,40 +51,8 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    const allMovies = localStorage.getItem('allMovies');
-    const savedMovies = localStorage.getItem('savedMovies');
-    const searchResults = localStorage.getItem('searchResults');
-    const searchSavedMoviesResults = localStorage.getItem('searchSavedMoviesResults');
-    const searchKeyword = localStorage.getItem('searchKeyword');
-    const searchSavedKeyword = localStorage.getItem('searchSavedKeyword');
-    const isShortMovie = localStorage.getItem('isShortMovie');
-    const isShortSavedMovie = localStorage.getItem('isShortSavedMovie');
 
     if (jwt) {
-      if (allMovies)
-        setMovies(JSON.parse(allMovies))
-
-      if (savedMovies)
-        setSavedMovies(JSON.parse(savedMovies));
-
-      if (searchResults)
-        setSearchResults(JSON.parse(searchResults));
-
-      if (searchSavedMoviesResults)
-        setSearchSavedMoviesResults(JSON.parse(searchSavedMoviesResults));
-
-      if (searchKeyword)
-        setSearchKeyword(searchKeyword);
-
-      if (searchSavedKeyword)
-        setSearchSavedKeyword(searchSavedKeyword);
-
-      if (isShortMovie)
-        setIsShortMovie(JSON.parse(isShortMovie));
-
-      if (isShortSavedMovie)
-        setIsShortSavedMovie(JSON.parse(isShortSavedMovie));
-
       authApi.checkToken(jwt).then(user => {
         setIsLoggedIn(true);
         setUser(user);
@@ -102,7 +70,6 @@ function App() {
           setSavedMovies(movies);
         })
       .catch((err) => setSearchResults([]));
-
     }
   }, [isLoggedIn]);
 
