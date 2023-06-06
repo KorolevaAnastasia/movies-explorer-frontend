@@ -26,4 +26,4 @@ ________________________________
 ## Ссылки на проект
 Макет: https://disk.yandex.ru/d/sKLGD3Ys0fsf5g
 Ссылка на страницу: https://movie-akoroleva.nomoredomains.monster/
-
+Ссылка на pull: https://github.com/KorolevaAnastasia/movies-explorer-frontend/pull/2
