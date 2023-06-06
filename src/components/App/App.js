@@ -13,11 +13,10 @@ import {getMovies} from "../../utils/MoviesApi";
 import authApi from "../../utils/authApi";
 import {errorMessages} from "../../utils/constants";
 import {
-  getProfile,
   getSavedMovies,
   removeSavedMovie,
   addSavedMovie,
-  updateProfile
+  updateProfile, getProfile
 } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import "./App.css";
@@ -37,42 +36,17 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState([]); //все фильмы
   const [savedMovies, setSavedMovies] = useState([]); //сохраненные фильмы
-  const [searchResults, setSearchResults] = React.useState([]); //результаты поиска по всем фильмам
-  const [searchSavedMoviesResults, setSearchSavedMoviesResults] = React.useState([]); //результаты поиска по сохраненным
+  const [searchResults, setSearchResults] = React.useState(JSON.parse(localStorage.getItem('searchResults')) ?? []); //результаты поиска по всем фильмам
+  const [searchSavedMoviesResults, setSearchSavedMoviesResults] = React.useState(JSON.parse(localStorage.getItem('searchSavedMoviesResults')) ?? []); //результаты поиска по сохраненным
 
-  const [searchKeyword, setSearchKeyword] = useState(''); //ключевое слово
-  const [searchSavedKeyword, setSearchSavedKeyword] = useState(''); //ключевое слово сохраненных
+  const [searchKeyword, setSearchKeyword] = useState(localStorage.getItem('searchKeyword') ?? ''); //ключевое слово
+  const [searchSavedKeyword, setSearchSavedKeyword] = useState(localStorage.getItem('searchSavedKeyword') ?? ''); //ключевое слово сохраненных
 
-  const [isShortMovie, setIsShortMovie] = useState(false); //чекбокс короткометражки
-  const [isShortSavedMovie, setIsShortSavedMovie] = useState(false); //чекбокс сохраненных короткометражек
+  const [isShortMovie, setIsShortMovie] = useState(JSON.parse(localStorage.getItem('isShortMovie')) ?? false); //чекбокс короткометражки
+  const [isShortSavedMovie, setIsShortSavedMovie] = useState(JSON.parse(localStorage.getItem('isShortSavedMovie')) ?? false); //чекбокс сохраненных короткометражек
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-
-    if (jwt) {
-      authApi.checkToken(jwt).then(user => {
-        setIsLoggedIn(true);
-        setUser(user);
-      }).catch(error => {
-        console.log(error);
-        handleLogout();
-      })
-    }
-  }, [navigate]);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      Promise.all([getProfile(), getSavedMovies()]).then(([user, movies]) => {
-          setUser(user);
-          setSavedMovies(movies);
-        })
-      .catch((err) => setSearchResults([]));
-    }
-  }, [isLoggedIn]);
-
 
   useEffect(() => {
     const updateDimension = () => {
@@ -91,30 +65,53 @@ function App() {
     })
   }, [windowWidth]);
 
-  //в localStorage
-  //все фильмы
   useEffect(() => {
-    if(isLoggedIn)
-      if(movies.length === 0) {
-        if ('allMovies' in localStorage) {
-          setMovies(JSON.parse(localStorage.getItem('allMovies')).data);
-        } else {
-          setIsLoading(true);
-          Promise.all([getMovies()]).then(([data]) => {
-            setMovies(data);
-          }).catch((err) => {
-            console.error(err);
-          }).
-          finally(() => setIsLoading(false));
-        }
-      }
-  }, [movies, isLoggedIn]);
+    const jwt = localStorage.getItem('jwt');
 
-  //сохраненные
+    if (jwt) {
+      authApi.checkToken(jwt).then(user => {
+        setIsLoggedIn(true);
+        setUser(user);
+      }).catch(error => {
+        console.log(error);
+        handleLogout();
+      })
+    }
+  }, [navigate]);
+
   useEffect(() => {
-    if(isLoggedIn)
-      localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
-  }, [savedMovies, isLoggedIn]);
+    if(movies.length === 0) {
+      if ('movies' in localStorage) {
+        setMovies(JSON.parse(localStorage.getItem('movies')));
+      } else {
+        setIsLoading(true);
+        Promise.all([getMovies()]).then(([data]) => {
+          setMovies(data);
+          localStorage.setItem('movies', JSON.stringify(data));
+        }).catch((err) => {
+          console.error(err);
+        }).
+        finally(() => setIsLoading(false));
+      }
+    }
+  }, [movies]);
+
+  useEffect(() => {
+    if(savedMovies.length === 0) {
+      if ('savedMovies' in localStorage) {
+        setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
+      } else {
+        setIsLoading(true);
+        Promise.all([getSavedMovies()]).then(([data]) => {
+          setSavedMovies(data);
+          localStorage.setItem('savedMovies', JSON.stringify(data));
+        }).catch((err) => {
+          console.error(err);
+        }).
+        finally(() => setIsLoading(false));
+      }
+    }
+  }, [savedMovies]);
 
   //результаты поиска
   useEffect(() => {
@@ -152,6 +149,27 @@ function App() {
       localStorage.setItem('isShortSavedMovie', JSON.stringify(isShortSavedMovie));
   }, [isShortSavedMovie, isLoggedIn]);
 
+  //разделение поиска по всем и сохраненным фильмам
+  useEffect(() => {
+    if (location.pathname === "/movies" && searchKeyword && movies.length > 0) {
+      const moviesResult = movies.filter((movie) => {
+        return movie.nameRU.toLowerCase().includes(searchKeyword.toLowerCase());
+      });
+      setSearchResults(moviesResult);
+    }
+  }, [movies, searchKeyword]);
+
+  useEffect(() => {
+    if(location.pathname === "/saved-movies" && searchSavedKeyword && savedMovies.length > 0) {
+      const searchedResults = savedMovies.filter((movie) => {
+        return movie.nameRU.toLowerCase().includes(searchSavedKeyword.toLowerCase());
+      });
+      setSearchSavedMoviesResults(searchedResults);
+    } else {
+      setSearchSavedMoviesResults(savedMovies);
+    }
+  }, [savedMovies, searchSavedKeyword]);
+
   function handleBurger() {
     setIsBurgerActive(!isBurgerActive);
   }
@@ -182,33 +200,6 @@ function App() {
     setUser(currentUser);
   }
 
-  function handleLogout(){
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('allMovies');
-    localStorage.removeItem('savedMovies');
-    localStorage.removeItem('searchResults');
-    localStorage.removeItem('searchSavedMoviesResults');
-    localStorage.removeItem('searchKeyword');
-    localStorage.removeItem('searchSavedKeyword');
-    localStorage.removeItem('isShortMovie');
-    localStorage.removeItem('isShortSavedMovie');
-
-    setMovies([]);
-    setSavedMovies([]);
-    setSearchResults([]);
-    setSearchSavedMoviesResults([]);
-    setSearchKeyword('');
-    setSearchSavedKeyword('');
-    setIsShortMovie(false);
-    setIsShortSavedMovie(false);
-
-    setIsInfoTooltip(false);
-    setErrorText('');
-
-    setIsLoggedIn(false);
-    setUser({});
-    navigate('/');
-  }
 
   function handleLogin(data) {
     const {email, password} = data;
@@ -239,6 +230,34 @@ function App() {
       else
         setErrorText(errorMessages.error);
     });
+  }
+
+  function handleLogout(){
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('movies');
+    localStorage.removeItem('savedMovies');
+    localStorage.removeItem('searchResults');
+    localStorage.removeItem('searchSavedMoviesResults');
+    localStorage.removeItem('searchKeyword');
+    localStorage.removeItem('searchSavedKeyword');
+    localStorage.removeItem('isShortMovie');
+    localStorage.removeItem('isShortSavedMovie');
+
+    setMovies([]);
+    setSavedMovies([]);
+    setSearchResults([]);
+    setSearchSavedMoviesResults([]);
+    setSearchKeyword('');
+    setSearchSavedKeyword('');
+    setIsShortMovie(false);
+    setIsShortSavedMovie(false);
+
+    setIsInfoTooltip(false);
+    setErrorText('');
+
+    setIsLoggedIn(false);
+    setUser({});
+    navigate('/');
   }
 
   function removeMovie(movieId) {
@@ -275,27 +294,6 @@ function App() {
     } else
       saveMovie(movie);
   }
-
-  //разделение поиска по всем и сохраненным фильмам
-  useEffect(() => {
-    if (location.pathname === "/movies" && searchKeyword && movies.length > 0) {
-      const moviesResult = movies.filter((movie) => {
-        return movie.nameRU.toLowerCase().includes(searchKeyword.toLowerCase());
-      });
-      setSearchResults(moviesResult);
-    }
-  }, [movies, searchKeyword]);
-
-  useEffect(() => {
-    if(location.pathname === "/saved-movies" && searchSavedKeyword && savedMovies.length > 0) {
-      const searchedResults = savedMovies.filter((movie) => {
-        return movie.nameRU.toLowerCase().includes(searchSavedKeyword.toLowerCase());
-      });
-      setSearchSavedMoviesResults(searchedResults);
-    } else {
-      setSearchSavedMoviesResults(savedMovies);
-    }
-  }, [savedMovies, searchSavedKeyword]);
 
   function handleSearchSubmit(keyword) {
     setIsLoading(true);
