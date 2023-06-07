@@ -11,12 +11,12 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import {getMovies} from "../../utils/MoviesApi";
 import authApi from "../../utils/authApi";
-import {errorMessages} from "../../utils/constants";
+import {errorMessages, TABLET_WIDTH} from "../../utils/constants";
 import {
   getSavedMovies,
   removeSavedMovie,
   addSavedMovie,
-  updateProfile, getProfile
+  updateProfile,
 } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import "./App.css";
@@ -37,7 +37,7 @@ function App() {
   const [movies, setMovies] = useState([]); //все фильмы
   const [savedMovies, setSavedMovies] = useState([]); //сохраненные фильмы
   const [searchResults, setSearchResults] = React.useState(JSON.parse(localStorage.getItem('searchResults')) ?? []); //результаты поиска по всем фильмам
-  const [searchSavedMoviesResults, setSearchSavedMoviesResults] = React.useState(JSON.parse(localStorage.getItem('searchSavedMoviesResults')) ?? []); //результаты поиска по сохраненным
+  const [searchSavedResults, setSearchSavedResults] = React.useState(JSON.parse(localStorage.getItem('searchSavedResults')) ?? []); //результаты поиска по сохраненным
 
   const [searchKeyword, setSearchKeyword] = useState(localStorage.getItem('searchKeyword') ?? ''); //ключевое слово
   const [searchSavedKeyword, setSearchSavedKeyword] = useState(localStorage.getItem('searchSavedKeyword') ?? ''); //ключевое слово сохраненных
@@ -51,7 +51,7 @@ function App() {
   useEffect(() => {
     const updateDimension = () => {
       setWindowWidth(getCurrentDimension())
-      if (windowWidth <= 780){
+      if (windowWidth <= TABLET_WIDTH){
         setIsBurger(true);
       }
       else{
@@ -72,6 +72,8 @@ function App() {
       authApi.checkToken(jwt).then(user => {
         setIsLoggedIn(true);
         setUser(user);
+        setErrorText('');
+        setIsInfoTooltip(false);
       }).catch(error => {
         console.log(error);
         handleLogout();
@@ -80,38 +82,39 @@ function App() {
   }, [navigate]);
 
   useEffect(() => {
-    if(movies.length === 0) {
-      if ('movies' in localStorage) {
-        setMovies(JSON.parse(localStorage.getItem('movies')));
-      } else {
-        setIsLoading(true);
-        Promise.all([getMovies()]).then(([data]) => {
-          setMovies(data);
-          localStorage.setItem('movies', JSON.stringify(data));
-        }).catch((err) => {
-          console.error(err);
-        }).
-        finally(() => setIsLoading(false));
+    if (isLoggedIn)
+      if(movies.length === 0) {
+        if ('movies' in localStorage) {
+          setMovies(JSON.parse(localStorage.getItem('movies')));
+        } else {
+          setIsLoading(true);
+          Promise.all([getMovies()]).then(([data]) => {
+            setMovies(data);
+            localStorage.setItem('movies', JSON.stringify(data));
+          }).catch((err) => {
+            console.error(err);
+          }).
+          finally(() => setIsLoading(false));
+        }
       }
-    }
-  }, [movies]);
+  }, [movies, isLoggedIn]);
 
   useEffect(() => {
-    if(savedMovies.length === 0) {
-      if ('savedMovies' in localStorage) {
-        setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
-      } else {
-        setIsLoading(true);
-        Promise.all([getSavedMovies()]).then(([data]) => {
-          setSavedMovies(data);
-          localStorage.setItem('savedMovies', JSON.stringify(data));
-        }).catch((err) => {
-          console.error(err);
-        }).
-        finally(() => setIsLoading(false));
+    if (isLoggedIn)
+      if (savedMovies.length === 0) {
+        if ('savedMovies' in localStorage) {
+          setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
+        } else {
+          setIsLoading(true);
+          Promise.all([getSavedMovies()]).then(([data]) => {
+            setSavedMovies(data);
+            localStorage.setItem('savedMovies', JSON.stringify(data));
+          }).catch((err) => {
+            console.error(err);
+          }).finally(() => setIsLoading(false));
+        }
       }
-    }
-  }, [savedMovies]);
+  }, [savedMovies, isLoggedIn]);
 
   //результаты поиска
   useEffect(() => {
@@ -122,8 +125,8 @@ function App() {
   //результаты поиска по сохраненным
   useEffect(() => {
     if(isLoggedIn)
-      localStorage.setItem('searchSavedMoviesResults', JSON.stringify(searchSavedMoviesResults));
-  }, [searchSavedMoviesResults, isLoggedIn]);
+      localStorage.setItem('searchSavedResults', JSON.stringify(searchSavedResults));
+  }, [searchSavedResults, isLoggedIn]);
 
   //ключевое слово
   useEffect(() => {
@@ -164,9 +167,9 @@ function App() {
       const searchedResults = savedMovies.filter((movie) => {
         return movie.nameRU.toLowerCase().includes(searchSavedKeyword.toLowerCase());
       });
-      setSearchSavedMoviesResults(searchedResults);
+      setSearchSavedResults(searchedResults);
     } else {
-      setSearchSavedMoviesResults(savedMovies);
+      setSearchSavedResults(savedMovies);
     }
   }, [savedMovies, searchSavedKeyword]);
 
@@ -206,7 +209,6 @@ function App() {
     authApi.loginUser(email, password).then(user => {
       localStorage.setItem('jwt', user.jwt);
       setIsLoggedIn(true);
-      setIsInfoTooltip(false);
       setUser(user);
       navigate('/movies');
     }).catch(error => {
@@ -222,8 +224,7 @@ function App() {
   function handleRegister(data) {
     const {name, email, password} = data;
     authApi.registerUser(name, email, password).then(user => {
-      setIsInfoTooltip(true);
-      navigate('/signin');
+      navigate('/movies');
     }).catch(error => {
       if(error === 409)
         setErrorText(errorMessages.emailError);
@@ -237,7 +238,7 @@ function App() {
     localStorage.removeItem('movies');
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('searchResults');
-    localStorage.removeItem('searchSavedMoviesResults');
+    localStorage.removeItem('searchSavedResults');
     localStorage.removeItem('searchKeyword');
     localStorage.removeItem('searchSavedKeyword');
     localStorage.removeItem('isShortMovie');
@@ -246,7 +247,7 @@ function App() {
     setMovies([]);
     setSavedMovies([]);
     setSearchResults([]);
-    setSearchSavedMoviesResults([]);
+    setSearchSavedResults([]);
     setSearchKeyword('');
     setSearchSavedKeyword('');
     setIsShortMovie(false);
@@ -309,7 +310,7 @@ function App() {
       const searchedResults = savedMovies.filter((movie) => {
         return movie.nameRU.toLowerCase().includes(keyword.toLowerCase());
       });
-      setSearchSavedMoviesResults(searchedResults);
+      setSearchSavedResults(searchedResults);
     }
     setIsLoading(false);
   }
@@ -367,7 +368,7 @@ function App() {
                 isBurger={isBurger}
                 isBurgerActive={isBurgerActive}
                 onBurger={handleBurger}
-                savedMovies={searchSavedMoviesResults}
+                savedMovies={searchSavedResults}
                 onSave={handleSaveMovieClick}
                 onRemove={handleRemoveMovieClick}
                 onSearchClick={handleSearchSubmit}
@@ -378,19 +379,19 @@ function App() {
             }/>
           </Route>
 
-          <Route path="/signup" element={
+          <Route path="/signup" element={!isLoggedIn ?
             <Register
               onRegister={handleRegister}
               isTooltip={isInfoTooltip}
               isAuthError={errorText}
-            />
+            /> : <Navigate to="/" replace />
           }/>
-          <Route path="/signin" element={
+          <Route path="/signin" element={!isLoggedIn ?
             <Login
               onLogin={handleLogin}
               isTooltip={isInfoTooltip}
               isAuthError={errorText}
-            />
+            /> : <Navigate to="/" replace />
           }/>
 
           <Route path="/" element={isLoggedIn ? <Navigate to="/" replace /> : <Navigate to="/signin" replace />} />

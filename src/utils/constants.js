@@ -13,5 +13,9 @@ export const errorMessages = {
 
 
 export const DESKTOP_WIDTH = 1280;
-export const TABLET_WIDTH = 768;
+export const DESKTOP_PAGINATE = 12;
+export const TABLET_WIDTH = 780;
+export const TABLET_PAGINATE = 8;
 export const MOBILE_WIDTH = 480;
+export const MOBILE_PAGINATE = 5;
+export const SHORT_MOVIE = 40;

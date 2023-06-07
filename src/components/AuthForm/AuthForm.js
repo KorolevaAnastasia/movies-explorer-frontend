@@ -66,7 +66,6 @@ function AuthForm(props){
         </div>
         <div className='auth__buttons'>
           {props.isAuthError && <Tooltip type='error' message={props.isAuthError}/>}
-          {props.isTooltip && <Tooltip type='message' message={'Регистрация успешно пройдена!'}/>}
           <Button
             name={props.buttonText}
             className={`button_submit ${!isValid ? 'button_disabled' : ''}`}

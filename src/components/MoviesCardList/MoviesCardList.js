@@ -2,12 +2,19 @@ import React, {useEffect, useState} from 'react';
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Button from "../Button/Button";
 import "./MoviesCardList.css";
-import {DESKTOP_WIDTH, MOBILE_WIDTH, TABLET_WIDTH} from "../../utils/constants";
+import {
+  DESKTOP_PAGINATE,
+  DESKTOP_WIDTH, MOBILE_PAGINATE,
+  MOBILE_WIDTH,
+  SHORT_MOVIE,
+  TABLET_PAGINATE,
+  TABLET_WIDTH
+} from "../../utils/constants";
 
 function MoviesCardList({movies, savedMovies, searchResults, checkbox, onSave, onRemove}) {
   const [paginate, setPaginate] = useState(0);
   const [paginateButton, setPaginateButton] = useState(false);
-  const shortMovies = movies.filter((movie) => movie.duration <= 40);
+  const shortMovies = movies.filter((movie) => movie.duration <= SHORT_MOVIE);
   const moviesToRender = checkbox ? shortMovies : movies;
 
   useEffect(() => {
@@ -25,16 +32,16 @@ function MoviesCardList({movies, savedMovies, searchResults, checkbox, onSave, o
   }, [moviesToRender, paginate]);
 
   function changePaginate() {
-    if(window.innerWidth > 1280)
-      return setPaginate(12);
+    if(window.innerWidth > DESKTOP_WIDTH)
+      return setPaginate(DESKTOP_PAGINATE);
     else if(window.innerWidth >= TABLET_WIDTH && window.innerWidth <= DESKTOP_WIDTH)
-      return setPaginate(8);
+      return setPaginate(TABLET_PAGINATE);
     else if(window.innerWidth < MOBILE_WIDTH)
-      return setPaginate(5);
+      return setPaginate(MOBILE_PAGINATE);
   }
 
   function handlePaginate() {
-    if(window.innerWidth > 1280)
+    if(window.innerWidth > DESKTOP_WIDTH)
       return setPaginate(paginate + 3);
     else if(window.innerWidth <= DESKTOP_WIDTH)
       return setPaginate(paginate + 2);

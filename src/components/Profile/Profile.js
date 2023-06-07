@@ -9,7 +9,8 @@ import Tooltip from "../Tooltip/Tooltip";
 
 function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive, errorText, isEdit, onEdit, isTooltip}) {
   const currentUser = useContext(CurrentUserContext);
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
+
+  const { register, handleSubmit, formState: { errors, isValid, isDirty } } = useForm({
     defaultValues: {
       email: currentUser.email,
       name: currentUser.name,
@@ -76,10 +77,10 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
                   </>
                 ) :
                   <Button
-                    disabled={!isValid}
+                    disabled={!isValid || !isDirty}
                     name='Сохранить'
                     type='submit'
-                    className={`button_submit ${!isValid ? 'button_disabled' : ''}`}
+                    className={`button_submit ${!isValid || !isDirty ? 'button_disabled' : ''}`}
                   />
                 }
             </div>
