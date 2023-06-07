@@ -10,7 +10,7 @@ import Tooltip from "../Tooltip/Tooltip";
 function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive, errorText, isEdit, onEdit, isTooltip}) {
   const currentUser = useContext(CurrentUserContext);
 
-  const { register, handleSubmit, formState: { errors, isValid, isDirty } } = useForm({
+  const { register, reset, handleSubmit, formState: { errors, isValid, isDirty } } = useForm({
     defaultValues: {
       email: currentUser.email,
       name: currentUser.name,
@@ -22,7 +22,8 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
     onProfileUpdate({
       name: data.name,
       email: data.email,
-    });
+    })
+    reset(data);
   };
 
   return (
