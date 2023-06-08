@@ -118,6 +118,12 @@ function App() {
       }
   }, [isLoggedIn]);
 
+  //сохраненные
+  useEffect(() => {
+    if(isLoggedIn)
+      localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+  }, [savedMovies, isLoggedIn]);
+
   //результаты поиска
   useEffect(() => {
     if(isLoggedIn)
