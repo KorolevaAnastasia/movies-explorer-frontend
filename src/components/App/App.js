@@ -16,7 +16,7 @@ import {
   getSavedMovies,
   removeSavedMovie,
   addSavedMovie,
-  updateProfile,
+  updateProfile, getProfile,
 } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import "./App.css";
@@ -67,6 +67,7 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
+    const currentUrl = location.pathname;
 
     if (jwt) {
       authApi.checkToken(jwt).then(user => {
@@ -74,12 +75,13 @@ function App() {
         setUser(user);
         setErrorText('');
         setIsInfoTooltip(false);
+        navigate(currentUrl);
       }).catch(error => {
         console.log(error);
         handleLogout();
       })
     }
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn)
@@ -114,7 +116,7 @@ function App() {
           }).finally(() => setIsLoading(false));
         }
       }
-  }, [savedMovies, isLoggedIn]);
+  }, [isLoggedIn]);
 
   //результаты поиска
   useEffect(() => {
@@ -203,14 +205,23 @@ function App() {
     setUser(currentUser);
   }
 
+  function getCurrentProfile(jwt) {
+    getProfile(jwt).then(user => {
+      setUser(user);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
 
   function handleLogin(data) {
     const {email, password} = data;
-    authApi.loginUser(email, password).then(user => {
-      localStorage.setItem('jwt', user.jwt);
-      setIsLoggedIn(true);
-      setUser(user);
-      navigate('/movies');
+    authApi.loginUser(email, password).then(data => {
+      if(data.jwt){
+        localStorage.setItem('jwt', data.jwt);
+        setIsLoggedIn(true);
+        getCurrentProfile(data.jwt);
+        navigate('/movies');
+      }
     }).catch(error => {
       if(error === 400)
         setErrorText(errorMessages.unicError);
@@ -223,8 +234,9 @@ function App() {
 
   function handleRegister(data) {
     const {name, email, password} = data;
-    authApi.registerUser(name, email, password).then(user => {
-      navigate('/movies');
+    authApi.registerUser(name, email, password).then((user) => {
+      if(user)
+        handleLogin({email: email, password: password});
     }).catch(error => {
       if(error === 409)
         setErrorText(errorMessages.emailError);
