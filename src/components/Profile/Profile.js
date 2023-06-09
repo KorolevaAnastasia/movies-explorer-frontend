@@ -7,34 +7,24 @@ import Button from "../Button/Button";
 import Header from "../Header/Header";
 import Tooltip from "../Tooltip/Tooltip";
 
-function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive}) {
+function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isBurgerActive, errorText, isEdit, onEdit, isTooltip}) {
   const currentUser = useContext(CurrentUserContext);
-  const [isEdit, setIsEdit] = React.useState(false); //состояния для проверки
-  const [isError, setIsError] = React.useState(false); //состояния для проверки
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
-    /*defaultValues: {
+
+  const { register, reset, handleSubmit, formState: { errors, isValid, isDirty } } = useForm({
+    defaultValues: {
       email: currentUser.email,
       name: currentUser.name,
-    },*/
-    defaultValues: {
-      email: 'a.koroleva@lofice.com',
-      name: 'Anastasia',
     },
     mode: "onChange"
   });
 
   const onSubmit = data => {
-    setIsEdit(false);
     onProfileUpdate({
       name: data.name,
       email: data.email,
-    });
+    })
+    reset(data);
   };
-
-  function handeEditProfile(evt) {
-    evt.preventDefault();
-    setIsEdit(true);
-  }
 
   return (
     <>
@@ -69,13 +59,15 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
               )}
             </div>
             <div className='profile__buttons'>
+              {isTooltip && <Tooltip type='message' message={'Данные профиля успешно обновлены!'}/>}
+              {errorText && <Tooltip type='error' message={errorText}/>}
               {!isEdit ?
                 (
                   <>
                     <Button
                       name='Редактировать'
                       type='button'
-                      event={handeEditProfile}
+                      event={onEdit}
                     />
                     <Button
                       event={onLogout}
@@ -84,17 +76,14 @@ function Profile({isLoggedIn, onLogout, onProfileUpdate, isBurger, onBurger, isB
                       type='button'
                     />
                   </>
-                ) : (
-                  <>
-                    {isError && <Tooltip type='error' message={'Произошла какая-то ошибка...'}/>}
-                    <Button
-                      disabled={!isValid}
-                      name='Сохранить'
-                      type='submit'
-                      className={`button_submit ${!isValid || isError ? 'button_disabled' : ''}`}
-                    />
-                  </>
-                )}
+                ) :
+                  <Button
+                    disabled={!isValid || !isDirty}
+                    name='Сохранить'
+                    type='submit'
+                    className={`button_submit ${!isValid || !isDirty ? 'button_disabled' : ''}`}
+                  />
+                }
             </div>
           </form>
         </section>
